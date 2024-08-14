@@ -18,19 +18,13 @@ namespace Domain.Entities
 
         public string Name { get; set; }
 
-        public Difficulty Difficulty { get; set; } // Enum property
+        public string Description { get; set; }
 
-        public int Duration { get; set; } // Duration in minutes
+        public Difficulty Difficulty { get; set; } 
 
-        public List<Exercise> Exercises { get; set; } // List of exercises
+        public int Duration { get; set; } 
 
-        public Rutine()
-        {
-            Exercises = new List<Exercise>();
-        }
-
-
-
+        public List<Exercise> Exercises { get; set; } 
 
     }
 }

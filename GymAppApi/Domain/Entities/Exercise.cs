@@ -11,11 +11,15 @@ namespace Domain.Entities
 {
     public class Exercise
     {
-        [Key] //atributo de identificación de todos los registros
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)] //ID numerico
+        [Key] 
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)] 
         public int Id { get; set; }
         public string Name { get; set; }
+        public string Description { get; set; } 
         public Category Category { get; set; }
+        public int Duration { get; set; }
+        public Machine? Machine { get; set; }
+        public List<Rutine> RutineList { get; set;}
 
     }
 }
