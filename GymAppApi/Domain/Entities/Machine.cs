@@ -9,12 +9,13 @@ using Domain.Enums;
 
 namespace Domain.Entities
 {
-    public class Machines
+    public class Machine
     {
-        [Key] //atributo de identificación de todos los registros
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)] //ID numerico
+        [Key] 
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)] 
         public int Id { get; set; }
-
+        public string Name { get; set; }
+        public List<Exercise> Exercises { get; set; }
 
     }
 }
