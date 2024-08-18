@@ -30,6 +30,9 @@ namespace Infraestructure.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("Difficulty")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("Duration")
                         .HasColumnType("INTEGER");
 
@@ -62,7 +65,7 @@ namespace Infraestructure.Migrations
                     b.ToTable("Machines");
                 });
 
-            modelBuilder.Entity("Domain.Entities.Rutine", b =>
+            modelBuilder.Entity("Domain.Entities.Routine", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -87,7 +90,7 @@ namespace Infraestructure.Migrations
                     b.ToTable("Rutines");
                 });
 
-            modelBuilder.Entity("ExerciseRutine", b =>
+            modelBuilder.Entity("ExerciseRoutine", b =>
                 {
                     b.Property<int>("ExercisesId")
                         .HasColumnType("INTEGER");
@@ -99,7 +102,7 @@ namespace Infraestructure.Migrations
 
                     b.HasIndex("RutineListId");
 
-                    b.ToTable("ExerciseRutine");
+                    b.ToTable("ExerciseRoutine");
                 });
 
             modelBuilder.Entity("Domain.Entities.Exercise", b =>
@@ -111,7 +114,7 @@ namespace Infraestructure.Migrations
                     b.Navigation("Machine");
                 });
 
-            modelBuilder.Entity("ExerciseRutine", b =>
+            modelBuilder.Entity("ExerciseRoutine", b =>
                 {
                     b.HasOne("Domain.Entities.Exercise", null)
                         .WithMany()
@@ -119,7 +122,7 @@ namespace Infraestructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.Entities.Rutine", null)
+                    b.HasOne("Domain.Entities.Routine", null)
                         .WithMany()
                         .HasForeignKey("RutineListId")
                         .OnDelete(DeleteBehavior.Cascade)

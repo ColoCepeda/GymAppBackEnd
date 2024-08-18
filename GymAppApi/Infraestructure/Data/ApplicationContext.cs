@@ -12,7 +12,7 @@ namespace Infraestructure.Data
     {
         public DbSet<Exercise> Exercises { get; set; }
         public DbSet<Machine> Machines { get; set; }
-        public DbSet<Rutine> Rutines { get; set; }
+        public DbSet<Routine> Rutines { get; set; }
 
         public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
         {

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection.PortableExecutable;
 using System.Text;
 using System.Threading.Tasks;
+using Domain.Enums;
 
 namespace Application.Models.Dtos
 {
@@ -16,6 +17,7 @@ namespace Application.Models.Dtos
         public string Description { get; set; } = string.Empty;
         public string Category { get; set; } = string.Empty; 
         public int Duration { get; set; }
+        public Difficulty Difficulty { get; set; }
         public Machine? Machine { get; set; }
     }
 }

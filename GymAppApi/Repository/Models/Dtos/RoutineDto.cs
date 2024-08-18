@@ -4,7 +4,7 @@ using Domain.Enums;
 
 namespace Application.Models.Dtos
 {
-    public class RutineDto
+    public class RoutineDto
     {
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Application.Models.Request
 {
-    internal class RutineSaveRequest
+    internal class RoutineSaveRequest
     {
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;

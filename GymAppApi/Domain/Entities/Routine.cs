@@ -9,7 +9,7 @@ using Domain.Enums;
 
 namespace Domain.Entities
 {
-    public class Rutine
+    public class Routine
     {
 
         [Key]
