@@ -49,6 +49,7 @@ namespace Infraestructure.Migrations
                     Description = table.Column<string>(type: "TEXT", nullable: false),
                     Category = table.Column<int>(type: "INTEGER", nullable: false),
                     Duration = table.Column<int>(type: "INTEGER", nullable: false),
+                    Difficulty = table.Column<int>(type: "INTEGER", nullable: false),
                     MachineId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
@@ -62,7 +63,7 @@ namespace Infraestructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ExerciseRutine",
+                name: "ExerciseRoutine",
                 columns: table => new
                 {
                     ExercisesId = table.Column<int>(type: "INTEGER", nullable: false),
@@ -70,15 +71,15 @@ namespace Infraestructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ExerciseRutine", x => new { x.ExercisesId, x.RutineListId });
+                    table.PrimaryKey("PK_ExerciseRoutine", x => new { x.ExercisesId, x.RutineListId });
                     table.ForeignKey(
-                        name: "FK_ExerciseRutine_Exercises_ExercisesId",
+                        name: "FK_ExerciseRoutine_Exercises_ExercisesId",
                         column: x => x.ExercisesId,
                         principalTable: "Exercises",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ExerciseRutine_Rutines_RutineListId",
+                        name: "FK_ExerciseRoutine_Rutines_RutineListId",
                         column: x => x.RutineListId,
                         principalTable: "Rutines",
                         principalColumn: "Id",
@@ -86,8 +87,8 @@ namespace Infraestructure.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ExerciseRutine_RutineListId",
-                table: "ExerciseRutine",
+                name: "IX_ExerciseRoutine_RutineListId",
+                table: "ExerciseRoutine",
                 column: "RutineListId");
 
             migrationBuilder.CreateIndex(
@@ -100,7 +101,7 @@ namespace Infraestructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "ExerciseRutine");
+                name: "ExerciseRoutine");
 
             migrationBuilder.DropTable(
                 name: "Exercises");
