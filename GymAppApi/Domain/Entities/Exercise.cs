@@ -18,8 +18,9 @@ namespace Domain.Entities
         public string Description { get; set; } 
         public Category Category { get; set; }
         public int Duration { get; set; }
+        public Difficulty Difficulty { get; set; }
         public Machine? Machine { get; set; }
-        public List<Rutine> RutineList { get; set;}
+        public List<Routine> RutineList { get; set;}
 
     }
 }
