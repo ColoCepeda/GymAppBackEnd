@@ -5,10 +5,10 @@ namespace Repositories
 {
     public interface IRoutineRepository
     {
-        IEnumerable<Rutine> GetAllRoutines();
-        Rutine GetRutineById(int id);
-        void AddRutine(Rutine rutine);
-        void UpdateRutine(Rutine rutine);
-        void DeleteRutine(int id);
+        IEnumerable<Routine> GetAllRoutines();
+        Routine GetRoutineById(int id);
+        void AddRoutine(Routine routine);
+        void UpdateRoutine(Routine routine);
+        void DeleteRoutine(int id);
     }
 }

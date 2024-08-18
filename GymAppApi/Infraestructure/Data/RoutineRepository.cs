@@ -14,34 +14,36 @@ namespace Repositories
             _context = context;
         }
 
-        public IEnumerable<Rutine> GetAllRoutines()
+        public IEnumerable<Routine> GetAllRoutines()
         {
-            return _context.Set<Rutine>().ToList();
+            return _context.Set<Routine>().Include(r => r.SetExercises).ToList();
         }
 
-        public Rutine GetRutineById(int id)
+        public Routine GetRoutineById(int id)
         {
-            return _context.Set<Rutine>().Find(id);
+            return _context.Set<Routine>()
+                           .Include(r => r.SetExercises)
+                           .FirstOrDefault(r => r.Id == id);
         }
 
-        public void AddRutine(Rutine rutine)
+        public void AddRoutine(Routine routine)
         {
-            _context.Set<Rutine>().Add(rutine);
+            _context.Set<Routine>().Add(routine);
             _context.SaveChanges();
         }
 
-        public void UpdateRutine(Rutine rutine)
+        public void UpdateRoutine(Routine routine)
         {
-            _context.Set<Rutine>().Update(rutine);
+            _context.Set<Routine>().Update(routine);
             _context.SaveChanges();
         }
 
-        public void DeleteRutine(int id)
+        public void DeleteRoutine(int id)
         {
-            var rutine = _context.Set<Rutine>().Find(id);
-            if (rutine != null)
+            var routine = _context.Set<Routine>().Find(id);
+            if (routine != null)
             {
-                _context.Set<Rutine>().Remove(rutine);
+                _context.Set<Routine>().Remove(routine);
                 _context.SaveChanges();
             }
         }
