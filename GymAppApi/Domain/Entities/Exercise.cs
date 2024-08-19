@@ -14,13 +14,13 @@ namespace Domain.Entities
         [Key] 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)] 
         public int Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; } 
+        public required string Name { get; set; }
+        public required string Description { get; set; } 
         public Category Category { get; set; }
         public int Duration { get; set; }
         public Difficulty Difficulty { get; set; }
         public Machine? Machine { get; set; }
-        public List<Routine> RutineList { get; set;}
+        public ICollection<SetExercise> SetExercises { get; set; } = new List<SetExercise>();
 
     }
 }

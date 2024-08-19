@@ -10,8 +10,6 @@ namespace Application.Models.Dtos
         public string Name { get; set; } = string.Empty;
         public Difficulty Difficulty { get; set; }
         public int Duration { get; set; } 
-
-       
         public List<ExerciseDto> Exercises { get; set; } = new List<ExerciseDto>();
     }
 }
