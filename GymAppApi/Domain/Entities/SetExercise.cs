@@ -10,7 +10,7 @@ namespace Domain.Entities
         public int Id { get; set; }
         public int IdRoutine { get; set; }
         public int IdExercise { get; set; }
-        public int Series { get; set; } 
+        public int Set { get; set; } 
 
     }
 }

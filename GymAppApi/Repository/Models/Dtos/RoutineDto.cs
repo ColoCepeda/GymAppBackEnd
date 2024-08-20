@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Domain.Entities;
 using Domain.Enums;
 
 namespace Application.Models.Dtos
@@ -9,7 +10,7 @@ namespace Application.Models.Dtos
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
         public Difficulty Difficulty { get; set; }
-        public int Duration { get; set; } 
-        public List<ExerciseDto> Exercises { get; set; } = new List<ExerciseDto>();
+        public int Duration { get; set; }
+        public ICollection<SetExercise> SetExercises { get; set; } = new List<SetExercise>();
     }
 }
