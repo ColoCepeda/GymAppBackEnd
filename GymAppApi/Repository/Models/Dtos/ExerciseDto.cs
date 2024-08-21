@@ -13,7 +13,7 @@ namespace Application.Models.Dtos
 
         public string Category { get; set; } = string.Empty;
         public int Duration { get; set; }
-        public Difficulty Difficulty { get; set; }
+        public int Difficulty { get; set; }
         public Machine? Machine { get; set; }
     }
 }

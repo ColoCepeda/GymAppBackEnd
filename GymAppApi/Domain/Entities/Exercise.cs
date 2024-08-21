@@ -21,6 +21,5 @@ namespace Domain.Entities
         public int Difficulty { get; set; }
         public Machine? Machine { get; set; }
 
-        public ICollection<SetExercise> SetExercises { get; set; } = new List<SetExercise>();
     }
 }

@@ -9,9 +9,9 @@ namespace Infraestructure.Data
 {
     public class BaseRepository<T> where T : class
     {
-        private readonly DbContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public BaseRepository(DbContext context)
+        public BaseRepository(ApplicationDbContext context)
         {
             _context = context;
         }

@@ -1,15 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Domain.Entities;
+using Infraestructure;
 using Microsoft.EntityFrameworkCore;
 
 namespace Repositories
 {
     public class RoutineRepository : IRoutineRepository
     {
-        private readonly DbContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public RoutineRepository(DbContext context)
+        public RoutineRepository(ApplicationDbContext context)
         {
             _context = context;
         }

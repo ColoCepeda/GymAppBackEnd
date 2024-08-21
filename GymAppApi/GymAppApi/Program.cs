@@ -1,7 +1,13 @@
 using Infraestructure.Data;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using Repositories;
 using System.Text.Json.Serialization;
+using GymAppApi.Controllers;
+using Application.Interfaces;
+using Application.Services;
+using Application.Models;
+using Infraestructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,7 +29,10 @@ using (var command = connection.CreateCommand())
     command.ExecuteNonQuery();
 }
 
-builder.Services.AddDbContext<ApplicationContext>(options => options.UseSqlite(connection));
+builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite(connection));
+
+builder.Services.AddScoped<IExerciseRepository, ExerciseRepository>();
+builder.Services.AddScoped<IRoutineRepository, RoutineRepository>();
 
 var app = builder.Build();
 

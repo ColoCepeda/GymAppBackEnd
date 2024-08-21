@@ -28,7 +28,7 @@ namespace GymAppApi.Controllers
                 ImageUrl = e.ImageUrl,
                 Category = e.Category.ToString(),
                 Duration = e.Duration,
-                Difficulty = (Domain.Enums.Difficulty)e.Difficulty,
+                Difficulty = e.Difficulty,
                 Machine = e.Machine
             }).ToList();
 

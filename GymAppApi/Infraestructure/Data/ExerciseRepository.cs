@@ -4,15 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Domain.Entities;
+using Infraestructure;
 using Microsoft.EntityFrameworkCore;
 
 namespace Repositories
 {
     public class ExerciseRepository : IExerciseRepository
     {
-        private readonly DbContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public ExerciseRepository(DbContext context)
+        public ExerciseRepository(ApplicationDbContext context)
         {
             _context = context;
         }
