@@ -34,8 +34,50 @@ namespace Application.Services
 
         public void UpdateRoutine(Routine routine)
         {
-            //Aca se tienen que realizar todas las modificaciones 
-            _routineRepository.Update(routine);
+            var existingRoutine = _routineRepository.Get(routine.Id);
+            if (existingRoutine == null)
+            {
+                throw new Exception("Routine not found.");
+            }
+
+            existingRoutine.Name = routine.Name;
+            existingRoutine.Description = routine.Description;
+
+            existingRoutine.Duration = 0;
+            int totalDifficulty = 0;
+            int exerciseCount = 0;
+
+            existingRoutine.SetExercises.Clear();
+
+            foreach (var setExerciseDto in routine.SetExercises)
+            {
+                var exercise = _exerciseRepository.Get(setExerciseDto.IdExercise);
+                if (exercise == null)
+                {
+                    throw new Exception($"Exercise with ID {setExerciseDto.IdExercise} not found.");
+                }
+
+                var setExercise = new SetExercise
+                {
+                    IdRoutine = existingRoutine.Id,
+                    IdExercise = setExerciseDto.IdExercise,
+                    Set = setExerciseDto.Set
+                };
+
+                existingRoutine.SetExercises.Add(setExercise);
+
+                existingRoutine.Duration += (exercise.Duration * setExercise.Set);
+
+                totalDifficulty += (int)exercise.Difficulty;
+                exerciseCount++;
+            }
+
+            if (exerciseCount > 0)
+            {
+                existingRoutine.Difficulty = (Difficulty)(totalDifficulty / exerciseCount);
+            }
+
+            _routineRepository.Update(existingRoutine);
         }
 
         public void DeleteRoutine(int id)

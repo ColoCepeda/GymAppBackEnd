@@ -40,11 +40,19 @@ namespace GymAppApi.Controllers
            return Ok(_routineService.AddRoutine(routineRequest));
         }
 
-        //[HttpPut("{id}")]
-        //
-        //
-           //este endpoint hay que hacerlo cuando se haga toda la logica de update en el servicio.
-        //
+        [HttpPut("{id}")]
+        public IActionResult UpdateRoutine(int id, [FromBody] Routine routine)
+        {
+            var existingRoutine = _routineService.GetRoutineById(id);
+            if (existingRoutine == null)
+            {
+                return NotFound();
+            }
+
+            _routineService.UpdateRoutine(routine);
+
+            return NoContent();
+        }
 
         [HttpDelete("{id}")]
         public IActionResult DeleteRoutine(int id)
@@ -52,6 +60,7 @@ namespace GymAppApi.Controllers
             var existingRoutine = _routineService.GetRoutineById(id);
 
             if (existingRoutine != null) {
+                _routineService.DeleteRoutine(id);
                 return NoContent(); 
             }
             return NotFound();
