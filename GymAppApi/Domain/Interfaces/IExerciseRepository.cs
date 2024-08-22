@@ -1,14 +1,14 @@
 ﻿using Domain.Entities;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-
-namespace Repositories
+namespace Domain.Interfaces
 {
-    public interface IExerciseRepository
+    public interface IExerciseRepository : IBaseRepository<Exercise>
     {
-        IEnumerable<Exercise> GetAllExercises();
-        Exercise GetExerciseById(int id);
-        void AddExercise(Exercise exercise);
-        void UpdateExercise(Exercise exercise);
-        void DeleteExercise(int id);
+      
     }
 }

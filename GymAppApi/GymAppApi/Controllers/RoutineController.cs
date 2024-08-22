@@ -1,10 +1,12 @@
-﻿using Application.Models.Dtos;
+﻿using Application.Interfaces;
+using Application.Models.Dtos;
 using Application.Models.Request;
 using Domain.Entities;
 using Domain.Enums;
+using Domain.Interfaces;
+using Infraestructure.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Repositories;
 
 namespace GymAppApi.Controllers
 {
@@ -12,177 +14,47 @@ namespace GymAppApi.Controllers
     [ApiController]
     public class RoutineController : ControllerBase
     {
-        private readonly IRoutineRepository _routineRepository;
-        private readonly IExerciseRepository _exerciseRepository;
+        private readonly IRoutineService _routineService;
 
-        public RoutineController(IRoutineRepository routineRepository, IExerciseRepository exerciseRepository)
+        public RoutineController(IRoutineService routineService)
         {
-            _routineRepository = routineRepository;
-            _exerciseRepository = exerciseRepository;
+            _routineService = routineService;
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<RoutineDto>> GetAllRoutines()
+        public IActionResult GetAllRoutnes()
         {
-            var routines = _routineRepository.GetAllRoutines();
-            var routineDtos = routines.Select(r => new RoutineDto
-            {
-                Id = r.Id,
-                Name = r.Name,
-                Difficulty = r.Difficulty,
-                Duration = r.Duration,
-                SetExercises = (ICollection<SetExercise>)r.SetExercises.Select(se => new SetExercise
-                {
-                    Id = se.IdExercise,
-                    Set = se.Set,
-                })
-            }).ToList();
-
-            return Ok(routineDtos);
+            return Ok(_routineService.GetAllRoutines());
         }
+        
 
         [HttpGet("{id}")]
-        public ActionResult<RoutineDto> GetRoutineById(int id)
+        public IActionResult GetRoutineById(int id)
         {
-            var routine = _routineRepository.GetRoutineById(id);
-
-            if (routine == null)
-                return NotFound();
-
-            var routineDto = new RoutineDto
-            {
-                Id = routine.Id,
-                Name = routine.Name,
-                Difficulty = routine.Difficulty,
-                Duration = routine.Duration,
-                SetExercises = (ICollection<SetExercise>)routine.SetExercises.Select(se => new SetExercise
-                {
-                    Id = se.IdExercise,
-                    Set = se.Set,
-                }).ToList()
-            };
-
-            return Ok(routineDto);
+            return Ok(_routineService.GetRoutineById(id));
         }
 
         [HttpPost]
-        public ActionResult<RoutineDto> CreateRoutine([FromBody] RoutineSaveRequest routineRequest)
+        public IActionResult CreateRoutine([FromBody] RoutineCreateRequest routineRequest)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            var routine = new Routine
-            {
-                Name = routineRequest.Name,
-                Description = routineRequest.Description,
-                SetExercises = routineRequest.ExerciseList.Select(e => new SetExercise
-                {
-                    IdExercise = e.Id,
-                    Set = e.Set
-                }).ToList()
-            };
-
-            routine.Duration = CalculateTotalDuration(routine.SetExercises);
-            routine.Difficulty = CalculateDifficulty(routine.SetExercises);
-
-            _routineRepository.AddRoutine(routine);
-
-            var routineDto = new RoutineDto
-            {
-                Id = routine.Id,
-                Name = routine.Name,
-                Difficulty = routine.Difficulty,
-                Duration = routine.Duration,
-                SetExercises = routine.SetExercises.Select(se => new SetExercise
-                {
-                    Id = se.IdExercise,
-                    Set = se.Set,
-                }).ToList()
-            };
-
-            return CreatedAtAction(nameof(GetRoutineById), new { id = routineDto.Id }, routineDto);
+           return Ok(_routineService.AddRoutine(routineRequest));
         }
 
-        [HttpPut("{id}")]
-        public ActionResult UpdateRoutine(int id, [FromBody] RoutineSaveRequest routineRequest)
-        {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            var existingRoutine = _routineRepository.GetRoutineById(id);
-
-            if (existingRoutine == null)
-                return NotFound();
-
-            existingRoutine.Name = routineRequest.Name;
-            existingRoutine.Description = routineRequest.Description;
-            existingRoutine.SetExercises = routineRequest.ExerciseList.Select(e => new SetExercise
-            {
-                IdExercise = e.Id,
-                Set = e.Set
-            }).ToList();
-
-            existingRoutine.Duration = CalculateTotalDuration(existingRoutine.SetExercises);
-            existingRoutine.Difficulty = CalculateDifficulty(existingRoutine.SetExercises);
-
-            _routineRepository.UpdateRoutine(existingRoutine);
-
-            return NoContent();
-        }
+        //[HttpPut("{id}")]
+        //
+        //
+           //este endpoint hay que hacerlo cuando se haga toda la logica de update en el servicio.
+        //
 
         [HttpDelete("{id}")]
-        public ActionResult DeleteRoutine(int id)
+        public IActionResult DeleteRoutine(int id)
         {
-            var existingRoutine = _routineRepository.GetRoutineById(id);
+            var existingRoutine = _routineService.GetRoutineById(id);
 
-            if (existingRoutine == null)
-                return NotFound();
-
-            _routineRepository.DeleteRoutine(id);
-
-            return NoContent();
-        }
-
-        private int CalculateTotalDuration(IEnumerable<SetExercise> setExercises)
-        {
-            int totalDuration = 0;
-
-            foreach (var setExercise in setExercises)
-            {
-                var exercise = _exerciseRepository.GetExerciseById(setExercise.IdExercise);
-                if (exercise != null)
-                {
-                    totalDuration += exercise.Duration * setExercise.Set;
-                }
+            if (existingRoutine != null) {
+                return NoContent(); 
             }
-
-            return totalDuration;
-        }
-
-        private Difficulty CalculateDifficulty(IEnumerable<SetExercise> setExercises)
-        {
-            double totalDifficulty = 0;
-            int totalSets = 0;
-
-            foreach (var setExercise in setExercises)
-            {
-                var exercise = _exerciseRepository.GetExerciseById(setExercise.IdExercise);
-                if (exercise != null)
-                {
-                    totalDifficulty += exercise.Difficulty * setExercise.Set;
-                    totalSets += setExercise.Set;
-                }
-            }
-
-            double averageDifficulty = totalSets > 0 ? totalDifficulty / totalSets : 0;
-            int roundedDifficulty = (int)Math.Round(averageDifficulty);
-
-            if (roundedDifficulty <= 3)
-                return Difficulty.Easy;
-            else if (roundedDifficulty <= 6)
-                return Difficulty.Medium;
-            else
-                return Difficulty.Hard;
+            return NotFound();
         }
 
     }

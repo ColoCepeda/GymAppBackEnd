@@ -15,10 +15,10 @@ namespace Domain.Entities
         public required string Name { get; set; }
         public required string Description { get; set; }
         public string? ImageUrl { get; set; } 
-
         public Category Category { get; set; }
         public int Duration { get; set; }
         public int Difficulty { get; set; }
+        public int Repetitions { get; set; }
         public Machine? Machine { get; set; }
 
     }

@@ -16,13 +16,14 @@ namespace Domain.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        public required string Name { get; set; }
+        public  string Name { get; set; }
 
-        public required string Description { get; set; }
+        public  string Description { get; set; }
 
         public Difficulty Difficulty { get; set; } 
 
         public int Duration { get; set; }
+
         public ICollection<SetExercise> SetExercises { get; set; } = new List<SetExercise>();
 
     }

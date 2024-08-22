@@ -1,52 +1,26 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Domain.Entities;
-using Infraestructure;
+﻿using Domain.Entities;
+using Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Repositories
+namespace Infraestructure.Data
 {
-    public class RoutineRepository : IRoutineRepository
+    public class RoutineRepository : BaseRepository<Routine>, IRoutineRepository
     {
         private readonly ApplicationDbContext _context;
 
-        public RoutineRepository(ApplicationDbContext context)
+        public RoutineRepository(ApplicationDbContext context) : base(context)
         {
             _context = context;
         }
 
-        public IEnumerable<Routine> GetAllRoutines()
+        public List<Routine> GetAll()
         {
-            return _context.Set<Routine>().Include(r => r.SetExercises).ToList();
-        }
-
-        public Routine GetRoutineById(int id)
-        {
-            return _context.Set<Routine>()
-                           .Include(r => r.SetExercises)
-                           .FirstOrDefault(r => r.Id == id);
-        }
-
-        public void AddRoutine(Routine routine)
-        {
-            _context.Set<Routine>().Add(routine);
-            _context.SaveChanges();
-        }
-
-        public void UpdateRoutine(Routine routine)
-        {
-            _context.Set<Routine>().Update(routine);
-            _context.SaveChanges();
-        }
-
-        public void DeleteRoutine(int id)
-        {
-            var routine = _context.Set<Routine>().Find(id);
-            if (routine != null)
-            {
-                _context.Set<Routine>().Remove(routine);
-                _context.SaveChanges();
-            }
+            return _context.Routines.Include(e => e.SetExercises).ToList();
         }
     }
 }

@@ -1,14 +1,14 @@
-﻿using System.Collections.Generic;
-using Domain.Entities;
+﻿using Domain.Entities;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Repositories
+namespace Domain.Interfaces
 {
-    public interface IRoutineRepository
+    public interface IRoutineRepository : IBaseRepository<Routine>
     {
-        IEnumerable<Routine> GetAllRoutines();
-        Routine GetRoutineById(int id);
-        void AddRoutine(Routine routine);
-        void UpdateRoutine(Routine routine);
-        void DeleteRoutine(int id);
+        public List<Routine> GetAll();
     }
 }

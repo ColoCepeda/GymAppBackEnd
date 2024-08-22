@@ -1,7 +1,7 @@
-﻿using Application.Models.Dtos;
+﻿using Application.Interfaces;
+using Application.Models.Dtos;
 using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
-using Repositories;
 
 namespace GymAppApi.Controllers
 {
@@ -9,30 +9,18 @@ namespace GymAppApi.Controllers
     [ApiController]
     public class ExerciseController : ControllerBase
     {
-        private readonly IExerciseRepository _exerciseRepository;
+        private readonly IExerciseService _exerciseService;
 
-        public ExerciseController(IExerciseRepository exerciseRepository)
+        public ExerciseController(IExerciseService exerciseService)
         {
-            _exerciseRepository = exerciseRepository;
+            _exerciseService = exerciseService;
         }
 
+        
         [HttpGet]
         public ActionResult<IEnumerable<ExerciseDto>> GetAllExercises()
         {
-            var exercises = _exerciseRepository.GetAllExercises();
-            var exerciseDtos = exercises.Select(e => new ExerciseDto
-            {
-                Id = e.Id,
-                Name = e.Name,
-                Description = e.Description,
-                ImageUrl = e.ImageUrl,
-                Category = e.Category.ToString(),
-                Duration = e.Duration,
-                Difficulty = e.Difficulty,
-                Machine = e.Machine
-            }).ToList();
-
-            return Ok(exerciseDtos);
+            return Ok(_exerciseService.GetAllExercises());
         }
     }
 }
