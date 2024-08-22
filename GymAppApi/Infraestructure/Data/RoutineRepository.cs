@@ -22,5 +22,11 @@ namespace Infraestructure.Data
         {
             return _context.Routines.Include(e => e.SetExercises).ToList();
         }
+        public new Routine? Get<Tid>(Tid id)
+        {
+            return _context.Routines
+                           .Include(r => r.SetExercises)  // Incluye la relación aquí
+                           .FirstOrDefault(r => r.Id.Equals(id));  // Utiliza FirstOrDefault en lugar de Find
+        }
     }
 }
