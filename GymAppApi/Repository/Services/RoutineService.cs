@@ -16,6 +16,7 @@ namespace Application.Services
     {
         private readonly IRoutineRepository _routineRepository;
         private readonly IExerciseRepository _exerciseRepository;
+
         public RoutineService(IRoutineRepository routineRepository, IExerciseRepository exerciseRepository)
         {
             _routineRepository = routineRepository;
@@ -38,6 +39,24 @@ namespace Application.Services
             if (existingRoutine == null)
             {
                 throw new Exception("Routine not found.");
+            }
+
+            // Validación: Evitar rutinas vacías
+            if (routine.SetExercises == null || !routine.SetExercises.Any())
+            {
+                throw new ArgumentException("La rutina no puede estar vacía. Debe contener al menos un ejercicio.");
+            }
+
+            // Validación: Evitar ejercicios duplicados
+            var duplicatedExercises = routine.SetExercises
+                                             .GroupBy(e => e.IdExercise)
+                                             .Where(g => g.Count() > 1)
+                                             .Select(g => g.Key)
+                                             .ToList();
+
+            if (duplicatedExercises.Any())
+            {
+                throw new ArgumentException("La rutina contiene ejercicios duplicados. Cada ejercicio debe ser único.");
             }
 
             existingRoutine.Name = routine.Name;
@@ -92,8 +111,28 @@ namespace Application.Services
         public RoutineDto AddRoutine(RoutineCreateRequest routineDto)
         {
             var routine = RoutineCreateRequest.ToEntity(routineDto);
+
+            // Validación: Evitar rutinas vacías
+            if (routine.SetExercises == null || !routine.SetExercises.Any())
+            {
+                throw new ArgumentException("La rutina no puede estar vacía. Debe contener al menos un ejercicio.");
+            }
+
+            // Validación: Evitar ejercicios duplicados
+            var duplicatedExercises = routine.SetExercises
+                                             .GroupBy(e => e.IdExercise)
+                                             .Where(g => g.Count() > 1)
+                                             .Select(g => g.Key)
+                                             .ToList();
+
+            if (duplicatedExercises.Any())
+            {
+                throw new ArgumentException("La rutina contiene ejercicios duplicados. Cada ejercicio debe ser único.");
+            }
+
             int totalDifficulty = 0;
             int exerciseCount = 0;
+
             foreach (var setExercise in routine.SetExercises)
             {
                 setExercise.IdRoutine = routine.Id;
@@ -104,6 +143,7 @@ namespace Application.Services
                 totalDifficulty += (int)exercise.Difficulty;
                 exerciseCount++;
             }
+
             if (exerciseCount > 0)
             {
                 routine.Difficulty = (Difficulty)(totalDifficulty / exerciseCount);
@@ -113,7 +153,5 @@ namespace Application.Services
 
             return RoutineDto.ToDto(routine);
         }
-            
-       }
-
     }
+}
