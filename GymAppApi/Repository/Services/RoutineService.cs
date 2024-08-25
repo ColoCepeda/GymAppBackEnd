@@ -41,24 +41,6 @@ namespace Application.Services
                 throw new Exception("Routine not found.");
             }
 
-            // Validación: Evitar rutinas vacías
-            if (routine.SetExercises == null || !routine.SetExercises.Any())
-            {
-                throw new ArgumentException("La rutina no puede estar vacía. Debe contener al menos un ejercicio.");
-            }
-
-            // Validación: Evitar ejercicios duplicados
-            var duplicatedExercises = routine.SetExercises
-                                             .GroupBy(e => e.IdExercise)
-                                             .Where(g => g.Count() > 1)
-                                             .Select(g => g.Key)
-                                             .ToList();
-
-            if (duplicatedExercises.Any())
-            {
-                throw new ArgumentException("La rutina contiene ejercicios duplicados. Cada ejercicio debe ser único.");
-            }
-
             existingRoutine.Name = routine.Name;
             existingRoutine.Description = routine.Description;
 
@@ -111,24 +93,6 @@ namespace Application.Services
         public RoutineDto AddRoutine(RoutineCreateRequest routineDto)
         {
             var routine = RoutineCreateRequest.ToEntity(routineDto);
-
-            // Validación: Evitar rutinas vacías
-            if (routine.SetExercises == null || !routine.SetExercises.Any())
-            {
-                throw new ArgumentException("La rutina no puede estar vacía. Debe contener al menos un ejercicio.");
-            }
-
-            // Validación: Evitar ejercicios duplicados
-            var duplicatedExercises = routine.SetExercises
-                                             .GroupBy(e => e.IdExercise)
-                                             .Where(g => g.Count() > 1)
-                                             .Select(g => g.Key)
-                                             .ToList();
-
-            if (duplicatedExercises.Any())
-            {
-                throw new ArgumentException("La rutina contiene ejercicios duplicados. Cada ejercicio debe ser único.");
-            }
 
             int totalDifficulty = 0;
             int exerciseCount = 0;
