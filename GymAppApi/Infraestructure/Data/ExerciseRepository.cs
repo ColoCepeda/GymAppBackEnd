@@ -1,5 +1,6 @@
 ﻿using Domain.Entities;
 using Domain.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,5 +18,9 @@ namespace Infraestructure.Data
             _context = context;
         }
 
+        public IEnumerable<Exercise> GetAll() 
+        {
+            return _context.Exercises.Include(m => m.Machine).ToList();
+        }
     }
 }
