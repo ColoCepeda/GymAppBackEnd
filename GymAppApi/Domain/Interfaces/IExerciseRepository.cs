@@ -9,6 +9,6 @@ namespace Domain.Interfaces
 {
     public interface IExerciseRepository : IBaseRepository<Exercise>
     {
-      
+        public IEnumerable<Exercise> GetAll();
     }
 }

@@ -22,7 +22,7 @@ namespace Application.Services
         {
             var exercisesDtos = new List<ExerciseDto>();
 
-            foreach (var exercise in _exerciseRepository.Get())
+            foreach (var exercise in _exerciseRepository.GetAll())
             {
                 exercisesDtos.Add(ExerciseDto.ToDto(exercise));
             }
