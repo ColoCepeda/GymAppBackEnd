@@ -10,8 +10,6 @@ using Domain.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddControllers().AddJsonOptions(x =>
                 x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
@@ -21,7 +19,6 @@ builder.Services.AddSwaggerGen();
 var connection = new SqliteConnection("Data Source=gymApp.db");
 connection.Open();
 
-// Set journal mode to DELETE using PRAGMA statement
 using (var command = connection.CreateCommand())
 {
     command.CommandText = "PRAGMA journal_mode = DELETE;";
@@ -35,7 +32,6 @@ builder.Services.AddScoped<IRoutineRepository, RoutineRepository>();
 builder.Services.AddScoped<IExerciseService, ExerciseService>();
 builder.Services.AddScoped<IRoutineService, RoutineService>();
 
-// Configuración de CORS para permitir cualquier origen
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll",
@@ -49,7 +45,6 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -58,7 +53,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-// Usar la política de CORS configurada
 app.UseCors("AllowAll");
 
 app.UseAuthorization();

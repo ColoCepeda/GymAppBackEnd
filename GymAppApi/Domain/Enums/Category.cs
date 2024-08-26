@@ -8,10 +8,13 @@ namespace Domain.Enums
 {
     public enum Category
     {
-        Back,
-        Legs,
-        Arms,
-        Abs,
-        Shoulders,
+        Cuadriceps = 0,
+        Espalda = 1,
+        Piernas = 2,
+        Brazos = 3,
+        Abdominales = 4,
+        Hombros = 5,
+        Pecho = 6,
+        Core = 7
     }
 }

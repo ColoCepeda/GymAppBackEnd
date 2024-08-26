@@ -13,6 +13,7 @@ namespace Application.Models.Dtos
         public Category Category { get; set; }
         public int Duration { get; set; }
         public int Difficulty { get; set; }
+        public int Repetition { get; set; }
         public Machine? Machine { get; set; }
 
         public static ExerciseDto ToDto(Exercise exercise)
@@ -25,6 +26,7 @@ namespace Application.Models.Dtos
             exerciseDto.ImageUrl = exercise.ImageUrl;
             exerciseDto.Category = exercise.Category;
             exerciseDto.Difficulty = exercise.Difficulty;
+            exerciseDto.Repetition = exercise.Repetitions;
             exerciseDto.Machine = exercise.Machine;
 
             return exerciseDto;
